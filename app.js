@@ -25,7 +25,7 @@ function createDeleteButton() {
 function createEditButton() {
   const editButton = document.createElement("button");
   editButton.textContent = "edit";
-  editButton.addEventListener("click", function(event) {});
+  editButton.addEventListener("click", handleEditButtonClick);
   return editButton;
 }
 
@@ -41,9 +41,31 @@ function createPElementAndRegisterListener(pContent) {
   return p;
 }
 
+function handleEditButtonClick(event) {
+  //console.log(event);
+  const paragraph = event.target.previousSibling;
+  //console.log(paragraph.value);
+
+  //console.log(paragraph.textContent);
+
+  // if there is no value inside a paragraph
+  if (!paragraph.textContent) {
+    return;
+  }
+
+  //const paragraphValue = paragraph.textContent;
+  const arrOfHtmlElements = Array.from(document.querySelectorAll("li p"));
+  const arrItemValues = arrOfHtmlElements.map(item => item.textContent);
+  localStorage.setItem("arrOfToDoItems", JSON.stringify(arrItemValues));
+  const items = localStorage.getItem("arrOfToDoItems");
+  //console.log(items);
+
+  //console.log(arrOfValue);
+  //console.log(nodeListOfParagraphElem);
+}
+
 /**
- * Create p element and set its value equal to value retrieve from input box.
- *
+ * when user keys text at the input text field OR when user clicks on add button
  */
 function createTodoListItem(event) {
   const input = document.querySelector("input[type=text]");
@@ -68,9 +90,25 @@ function createTodoListItem(event) {
 
   const p = createPElementAndRegisterListener(input.value);
   liItem.appendChild(p);
+  liItem.appendChild(createEditButton());
   liItem.appendChild(createDeleteButton());
   ul.appendChild(liItem);
   input.value = "";
+}
+
+function createToDoListItemFromLocalStorage(arrOfValues) {
+  const ul = document.querySelector("ul");
+  const liItem = document.createElement("li");
+
+  liItem.appendChild(createCheckBox());
+
+  for (let i = 0; i < arrOfValues.length; i++) {
+    const p = createPElementAndRegisterListener(arrOfValues[i]);
+    liItem.appendChild(p);
+    liItem.appendChild(createEditButton());
+    liItem.appendChild(createDeleteButton());
+    ul.appendChild(liItem);
+  }
 }
 
 //add button at the top of the page.
@@ -79,24 +117,7 @@ addButton.addEventListener("click", createTodoListItem);
 
 const inputElement = document.querySelector(".textbox");
 inputElement.addEventListener("keypress", createTodoListItem);
-//const items = document.querySelectorAll("ul p");
 
-/*
-items.forEach(item => {
-  //console.log(listItem);
-  item.addEventListener("click", function(event) {
-    item.classList.toggle("done");
-    item.classList.toggle("todo");
-  });
-});
-*/
-//event delegation
-
-/*
-const items = document.querySelector("ul");
-
-items.addEventListener("click", function(event) {
-  event.target.classList.toggle("todo");
-  event.target.classList.toggle("done");
-});
-*/
+if (localStorage.getItem("arrOfToDoItems") !== null) {
+  createToDoListItemFromLocalStorage(localStorage.getItem("arrOfToDoItems"));
+}

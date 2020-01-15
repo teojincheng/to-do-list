@@ -1,0 +1,15 @@
+.done {
+  text-decoration: line-through;
+}
+
+.todo {
+  text-decoration: none;
+}
+
+.items {
+  margin: 0 20px;
+}
+
+p {
+  display: inline;
+}
