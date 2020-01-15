@@ -7,7 +7,7 @@ function createTodoListItem() {
   const li = document.createElement("li");
   const input = document.querySelector("input[type=text]");
 
-  if (input.value === "") {
+  if (!input.value) {
     return;
   }
 
