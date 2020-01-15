@@ -6,6 +6,11 @@ function createTodoListItem() {
   const text = "Buy shampoo";
   const li = document.createElement("li");
   const input = document.querySelector("input[type=text]");
+
+  if (input.value === "") {
+    return;
+  }
+
   li.textContent = input.value;
   const ul = document.querySelector("ul");
   ul.appendChild(li);
