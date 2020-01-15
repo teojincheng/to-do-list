@@ -6,6 +6,7 @@ function createTodoListItem() {
   const text = "Buy shampoo";
   const li = document.createElement("li");
   const input = document.querySelector("input[type=text]");
+  li.setAttribute("contenteditable", true);
 
   if (!input.value) {
     return;
