@@ -57,7 +57,7 @@ function handleEditButtonClick(event) {
   const arrOfHtmlElements = Array.from(document.querySelectorAll("li p"));
   const arrItemValues = arrOfHtmlElements.map(item => item.textContent);
   localStorage.setItem("arrOfToDoItems", JSON.stringify(arrItemValues));
-  const items = localStorage.getItem("arrOfToDoItems");
+  //const items = localStorage.getItem("arrOfToDoItems");
   //console.log(items);
 
   //console.log(arrOfValue);
@@ -97,22 +97,23 @@ function createTodoListItem(event) {
 }
 
 function createToDoListItemFromLocalStorage(arrOfValues) {
+  let liElements = document.querySelectorAll("ul li");
+  for (let j = 0; j < liElements.length; j++) {
+    liElements[j].parentNode.removeChild(liElements[j]);
+  }
   const ul = document.querySelector("ul");
-  const liItem = document.createElement("li");
-
-  liItem.appendChild(createCheckBox());
 
   for (let i = 0; i < arrOfValues.length; i++) {
+    //console.log(arrOfValues[i]);
+    const liItem = document.createElement("li");
+
+    liItem.appendChild(createCheckBox());
+
     const p = createPElementAndRegisterListener(arrOfValues[i]);
     liItem.appendChild(p);
     liItem.appendChild(createEditButton());
     liItem.appendChild(createDeleteButton());
     ul.appendChild(liItem);
-  }
-
-  let liElements = document.querySelectorAll("ul li");
-  for (let j = 0; j < liElements.length; j++) {
-    liElements[j].parentNode.removeChild(liElements[j]);
   }
 }
 
@@ -124,5 +125,9 @@ const inputElement = document.querySelector(".textbox");
 inputElement.addEventListener("keypress", createTodoListItem);
 
 if (localStorage.getItem("arrOfToDoItems") !== null) {
-  createToDoListItemFromLocalStorage(localStorage.getItem("arrOfToDoItems"));
+  createToDoListItemFromLocalStorage(
+    JSON.parse(localStorage.getItem("arrOfToDoItems"))
+  );
+
+  localStorage.clear();
 }
