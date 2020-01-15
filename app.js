@@ -109,6 +109,11 @@ function createToDoListItemFromLocalStorage(arrOfValues) {
     liItem.appendChild(createDeleteButton());
     ul.appendChild(liItem);
   }
+
+  let liElements = document.querySelectorAll("ul li");
+  for (let j = 0; j < liElements.length; j++) {
+    liElements[j].parentNode.removeChild(liElements[j]);
+  }
 }
 
 //add button at the top of the page.
