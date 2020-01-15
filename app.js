@@ -36,32 +36,20 @@ function createPElementAndRegisterListener(pContent) {
   p.textContent = pContent;
   p.addEventListener("click", toggleComplete);
   p.setAttribute("contentEditable", true);
-  //p.appendChild(createDeleteButton());
-  //p.appendChild(createEditButton());
   return p;
 }
 
 function handleEditButtonClick(event) {
-  //console.log(event);
   const paragraph = event.target.previousSibling;
-  //console.log(paragraph.value);
-
-  //console.log(paragraph.textContent);
 
   // if there is no value inside a paragraph
   if (!paragraph.textContent) {
     return;
   }
 
-  //const paragraphValue = paragraph.textContent;
   const arrOfHtmlElements = Array.from(document.querySelectorAll("li p"));
   const arrItemValues = arrOfHtmlElements.map(item => item.textContent);
   localStorage.setItem("arrOfToDoItems", JSON.stringify(arrItemValues));
-  //const items = localStorage.getItem("arrOfToDoItems");
-  //console.log(items);
-
-  //console.log(arrOfValue);
-  //console.log(nodeListOfParagraphElem);
 }
 
 /**
@@ -80,9 +68,6 @@ function createTodoListItem(event) {
     return;
   }
 
-  //checkwanted events.
-  //use contenteditable attribute
-
   const ul = document.querySelector("ul");
   const liItem = document.createElement("li");
 
@@ -93,6 +78,12 @@ function createTodoListItem(event) {
   liItem.appendChild(createEditButton());
   liItem.appendChild(createDeleteButton());
   ul.appendChild(liItem);
+
+  //add items into localStorage
+  const arrOfHtmlElements = Array.from(document.querySelectorAll("li p"));
+  const arrItemValues = arrOfHtmlElements.map(item => item.textContent);
+  localStorage.setItem("arrOfToDoItems", JSON.stringify(arrItemValues));
+
   input.value = "";
 }
 
