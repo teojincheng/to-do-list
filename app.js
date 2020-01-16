@@ -1,5 +1,10 @@
 function removeItem(event) {
+  //visually remove
   event.target.parentElement.remove();
+  //add items into localStorage
+  const arrOfHtmlElements = Array.from(document.querySelectorAll("li p"));
+  const arrItemValues = arrOfHtmlElements.map(item => item.textContent);
+  localStorage.setItem("arrOfToDoItems", JSON.stringify(arrItemValues));
 }
 
 function toggleComplete(event) {
